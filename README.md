@@ -3,6 +3,9 @@ _for [Heroku](https://www.heroku.com/) deployment_
 
 ## Overview
 
+https://vasanthk.gitbooks.io/react-bits/
+
+
 This is a simple starter to get you up and running for React projects. This is intended to provide:
 
 * a lightweight webpack config (for development and production)
