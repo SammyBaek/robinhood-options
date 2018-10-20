@@ -9,35 +9,37 @@ import StockInfo from '../components/StockInfo';
 import TableInfo from '../components/TableInfo';
 
 
-const AppContainer = () => {
-    return (
-        // <Login />
-        <div className="container">
-            <div className="row">
-                <div className="col-md-12">
-                    <SearchBar />
+class AppContainer extends React.Component {
+    render() {
+        debugger
+        if (!this.props.token) {
+            return (<Login />);
+        }
+        return (
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <SearchBar />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-9">
+                        <StockInfo />
+                        <TableInfo />
+                    </div>
+                    <div className="col-md-3">
+                        <Order />
+                    </div>
                 </div>
             </div>
-            <div className="row">
-                <div className="col-md-9">
-                    <StockInfo />
-                    <TableInfo />
-                </div>
-                <div className="col-md-3">
-                    <Order />
-                </div>
-            </div>
-        </div>
-    );
-};
+        );
+    }
+}
 
-AppContainer.propTypes = {
-    name: PropTypes.string,
-};
 
 const mapStateToProps = (state) => {
     return {
-        name: state.name
+        token: state.token
     };
 };
 
@@ -48,5 +50,5 @@ const mapDispatchToProps = (/* dispatch */) => {
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps()
 )(AppContainer);

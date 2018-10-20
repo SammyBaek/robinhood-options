@@ -44,3 +44,4 @@ export const searchTicker = (ticker) => async dispatch=> {
     };
     dispatch({type: SEARCHTICKER, payload: payload});
 };
+
