@@ -5,7 +5,6 @@ import {LOGIN, SEARCHTICKER} from './types';
 import axios from 'axios/index';
 
 export const login = (uname, pword) => async dispatch => {
-
     const data = {
         username: uname,
         password: pword,
@@ -17,9 +16,8 @@ export const login = (uname, pword) => async dispatch => {
     };
     const res = await axios.post("https://api.robinhood.com/oauth2/token/", data);
     console.log(res.data);
-    
+
     dispatch({ type: LOGIN, payload: res.data });
-    
 };
 
 export const searchTicker = (ticker) => async dispatch=> {
@@ -35,8 +33,8 @@ export const searchTicker = (ticker) => async dispatch=> {
     const datesr = await axios.get("https://api.robinhood.com/options/chains/", {params: params2});
     const expirationDates = datesr.data.results[0].expiration_dates;
 
-    const pricer = await axios.get("https://api.robinhood.com/quotes/" + ticker+'/');
-    const stockPrice = pricer.data.last_traded_price;
+    const pricer = await axios.get("https://api.robinhood.com/quotes/" + ticker + '/');
+    const stockPrice = pricer.data.last_trade_price;
     const payload = {
         ticker: ticker,
         dates: expirationDates,

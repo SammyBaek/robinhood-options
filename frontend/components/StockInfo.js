@@ -28,13 +28,14 @@ class StockInfo extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-md-4">
-                        $AAPL
+                        {this.props.ticker}
                     </div>
                     <div className="col-md-4">
-                        Share Price: $100
+                        {`Share Price: ${this.props.stockPrice}`}
                     </div>
                     <div className="col-md-4">
-                        Expiration Date
+                        Expiration dates
+                        {this.props.expirationDates}
                     </div>
                 </div>
                 <div className="row">
@@ -82,6 +83,9 @@ class StockInfo extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        ticker: state.ticker,
+        stockPrice: state.stockPrice,
+        expirationDates: state.dates
     };
 };
 

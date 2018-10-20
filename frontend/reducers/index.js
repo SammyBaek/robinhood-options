@@ -1,9 +1,12 @@
-import {LOGIN} from '../actions/types';
+import {LOGIN, SEARCHTICKER } from '../actions/types';
 
-function rootReducer(state = {tiker: '', token: '', }, action) {
+function rootReducer(state = {ticker: 'RBHD', token: '', dates: [], stockPrice: '1000000.00'}, action) {
     switch (action.type) {
         case LOGIN:
             return Object.assign({}, state, {token: action.payload.access_token});
+        case SEARCHTICKER:
+            const { ticker, dates, stockPrice } = action.payload;
+            return Object.assign({}, state, { ticker, dates, stockPrice });
         default:
             return state;
     }
