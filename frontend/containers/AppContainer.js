@@ -11,7 +11,6 @@ import TableInfo from '../components/TableInfo';
 
 class AppContainer extends React.Component {
     render() {
-        debugger
         if (!this.props.token) {
             return (<Login />);
         }
