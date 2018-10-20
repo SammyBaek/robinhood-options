@@ -1,4 +1,17 @@
+body {
+	background: #272727;
+}
+
 h1 {
   font-family: helvetica;
-  font-weight: 200;
+  font-weight: 500;
 }
+
+.btn {
+	background: #666666;
+}
+
+#call, #buy, #loss, #submit, #search {
+	background: #21CE99;
+}
+

@@ -31,6 +31,7 @@ class Order extends React.Component {
     }
 
     render() {
+        let color = "color"
         const limitPrice = this.state.type === 'loss' ? '' : (
             <div className="form-group row">
                 <label className="col-sm-4 col-form-label">Limit Price</label>
@@ -52,6 +53,7 @@ class Order extends React.Component {
                     <div className="col-sm-12">
                         <button
                             className={`btn btn-${ this.state.type === 'loss' ? '' : 'outline-' }success`}
+                            id="loss"
                             type="button"
                             name="loss"
                             onClick={this.toggleType}
@@ -60,6 +62,7 @@ class Order extends React.Component {
                         </button>
                         <button
                             className={`btn btn-${ this.state.type === 'limit' ? '' : 'outline-' }success`}
+                            id="limit"
                             type="button"
                             name="limit"
                             onClick={this.toggleType}
@@ -94,7 +97,7 @@ class Order extends React.Component {
                     </div>
                 </div>
                 { limitPrice }
-                <button className="btn btn-success" type="submit" onClick={this.submitOrder}>Submit Order!</button>
+                <button className="btn btn-success" id="submit" type="submit" onClick={this.submitOrder}>Submit Order!</button>
             </div>
         );
     }

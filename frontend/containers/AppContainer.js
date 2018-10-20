@@ -8,11 +8,10 @@ import Order from '../components/Order';
 import StockInfo from '../components/StockInfo';
 import TableInfo from '../components/TableInfo';
 
-
 const AppContainer = () => {
     return (
         // <Login />
-        <div className="container">
+        <div className="container" id="main">
             <div className="row">
                 <div className="col-md-12">
                     <SearchBar />
