@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Title from '../components/Title';
-
-const AppContainer = ({ name }) => {
+import Login from '../components/Login';
+const AppContainer = () => {
     return (
         <div>
-            <Title name={name} />
+            <Login />
         </div>
     );
 };
