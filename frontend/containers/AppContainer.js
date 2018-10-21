@@ -11,7 +11,6 @@ import TableInfo from '../components/TableInfo';
 
 class AppContainer extends React.Component {
     render() {
-        debugger
         if (!this.props.token) {
             return (<Login />);
         }
@@ -22,6 +21,7 @@ class AppContainer extends React.Component {
                         <SearchBar />
                     </div>
                 </div>
+
                 <div className="row">
                     <div className="col-md-9">
                         <StockInfo />

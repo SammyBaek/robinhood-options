@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getTableInfo } from '../actions/index';
 
 class StockInfo extends React.Component {
     constructor(props) {
@@ -8,19 +9,40 @@ class StockInfo extends React.Component {
 
         this.state = {
             direction: 'buy',
-            orderType: 'put'
+            orderType: 'put',
+            expDate: props.expirationDates[0]
         };
 
         this.toggleDirection = this.toggleDirection.bind(this);
         this.toggleType = this.toggleType.bind(this);
+        this.handleExpChange = this.handleExpChange.bind(this);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.ticker !== this.props.ticker) {
+            this.setState({ expDate: this.props.expirationDates[0] });
+            this.props.getTableInfo(this.props.token, this.props.ticker, this.state.orderType, this.props.expirationDates[0]);
+        }
     }
 
     toggleDirection(e) {
-        this.setState({ direction: e.target.name });
+        if (this.state.direction !== e.target.name) {
+            this.setState({ direction: e.target.name });
+        }
     }
 
     toggleType(e) {
-        this.setState({ orderType: e.target.name });
+        if (this.state.orderType !== e.target.name) {
+            this.setState({ orderType: e.target.name });
+            this.props.getTableInfo(this.props.token, this.props.ticker, e.target.name, this.state.expDate);
+        }
+    }
+
+    handleExpChange(e) {
+        if (this.state.expDate !== e.target.value) {
+            this.setState({ expDate: e.target.value });
+            this.props.getTableInfo(this.props.token, this.props.ticker, this.state.orderType, e.target.value);
+        }
     }
 
     render() {
@@ -28,13 +50,19 @@ class StockInfo extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-md-4">
-                        $AAPL
+                        {this.props.ticker}
                     </div>
                     <div className="col-md-4">
-                        Share Price: $100
+                        {`Share Price: ${this.props.stockPrice}`}
                     </div>
                     <div className="col-md-4">
-                        Expiration Date
+                        Expiration dates
+                        <select className="custom-select" value={this.state.expDate} onChange={this.handleExpChange}>
+                            { this.props.expirationDates.map(date => (
+                                <option value={date}>{date}</option>
+                              ))
+                            }
+                        </select>
                     </div>
                 </div>
                 <div className="row">
@@ -82,15 +110,20 @@ class StockInfo extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        token: state.token,
+        ticker: state.ticker,
+        stockPrice: state.stockPrice,
+        expirationDates: state.dates
     };
 };
 
 const mapDispatchToProps = (/* dispatch */) => {
     return {
+        getTableInfo: getTableInfo
     };
 };
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps()
 )(StockInfo);
