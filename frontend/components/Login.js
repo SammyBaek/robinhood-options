@@ -15,6 +15,7 @@ class Login extends React.Component {
     }
     handleSubmit(event) {
         event.preventDefault();
+        console.log("submit");
         this.props.login(this.state.username, this.state.password);
     }
     handleChange(event) {
@@ -53,5 +54,5 @@ const mapDispatchToProps = (/* dispatch */) => {
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps()
 )(Login);

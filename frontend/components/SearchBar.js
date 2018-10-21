@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { searchTicker } from '../actions/index';
 
 class SearchBar extends React.Component {
     constructor(props) {
@@ -15,13 +16,12 @@ class SearchBar extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        // this.props.searchTicker()
-
+        this.props.searchTicker(this.state.ticker, this.props.token);
         this.setState({ ticker: '' });
     }
 
     handleGeneral(e) {
-        this.setState({ [e.target.name]: e.target.value});
+        this.setState({ [e.target.name]: e.target.value.toUpperCase() });
     }
 
     render() {
@@ -31,7 +31,7 @@ class SearchBar extends React.Component {
                     <input
                         className="form-control form-control-sm mr-3 w-75"
                         type="text"
-                        placeholder="AAPL"
+                        placeholder={ this.props.ticker ? this.props.ticker : 'ROBH' }
                         aria-label="Search"
                         name="ticker"
                         value={this.state.ticker}
@@ -54,15 +54,18 @@ class SearchBar extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        ticker: state.ticker,
+        token: state.token
     };
 };
 
 const mapDispatchToProps = (/* dispatch */) => {
     return {
+        searchTicker: searchTicker
     };
 };
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps()
 )(SearchBar);
