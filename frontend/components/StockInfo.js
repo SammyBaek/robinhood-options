@@ -22,26 +22,30 @@ class StockInfo extends React.Component {
         }  else {
             color = '#21CE99'
         }
-        const grey = '#666666';
-        const type = document.getElementById('loss');
         let loss = false;
-        console.log(type.style.background);
-        if (type.style.background == grey) {
+        const limit = document.getElementById('limit').style.background;
+        if (limit == "" || limit == 'rgb(102, 102, 102)') {
             loss = true;
         }
+        const grey = '#666666';
         const list = document.getElementsByClassName('btn');
         for (let i of list) {
-            if (i.name == e.target.name || i.name == this.state.direction || i.name == this.state.type) {
-                i.style.background = color;
-            } else if (((i.name == 'loss') && loss) || ((i.name == 'limit') && !loss)){
-                console.log(i.name)
-                console.log(loss)
+            if (i.name == "call" || i.name == "put") {
+                if (i.name == e.target.name) {
+                    i.style.background = color;
+                } else {
+                    i.style.background = grey;
+                }
+            } else if (i.name == "search" || i.name == "submit") {
                 i.style.background = color;
             } else {
-                i.style.background = grey;
+                if (i.name == this.state.direction || ((loss && (i.name == "loss")) || (!loss && (i.name == "limit")))) {
+                    i.style.background = color;
+                } else {
+                    i.style.background = grey;
+                }
             }
         }
-
     }
 
     changeColorDirection(e) {
@@ -51,15 +55,28 @@ class StockInfo extends React.Component {
         }  else {
             color = '#21CE99'
         }
+        let loss = false;
+        const limit = document.getElementById('limit').style.background;
+        if (limit == "" || limit == 'rgb(102, 102, 102)') {
+            loss = true;
+        }
         const grey = '#666666';
         const list = document.getElementsByClassName('btn');
         for (let i of list) {
-            if (i.name == e.target.name) {
-                i.style.background = color;
-            } else if (i.name == this.state.orderType) {
+            if (i.name == "buy" || i.name == "sell") {
+                if (i.name == e.target.name) {
+                    i.style.background = color;
+                } else {
+                    i.style.background = grey;
+                }
+            } else if (i.name == "search" || i.name == "submit") {
                 i.style.background = color;
             } else {
-                i.style.background = grey;
+                if (i.name == this.state.orderType || ((loss && (i.name == "loss")) || (!loss && (i.name == "limit")))) {
+                    i.style.background = color;
+                } else {
+                    i.style.background = grey;
+                }
             }
         }
     }

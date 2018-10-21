@@ -40,6 +40,7 @@ class SearchBar extends React.Component {
                     />
                     <button
                         id="search"
+                        name="search"
                         className="btn btn-success"
                         type="submit"
                     >

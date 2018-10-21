@@ -18,6 +18,24 @@ class Order extends React.Component {
         this.handleGeneral = this.handleGeneral.bind(this);
     }
 
+    changeColor(e) {
+        const grey = '#666666';
+        let color = '#FF6340';
+        const put = document.getElementById('put').style.background;
+        if (put == "" || put == 'rgb(102, 102, 102)') {
+            color = '#21CE99';
+        }
+        if (e.target.name == "limit") {
+            e.target.style.background = color;
+            document.getElementById('loss').style.background = grey;
+        } else {
+            e.target.style.background = color;
+            document.getElementById('limit').style.background = grey;
+        }
+    }
+
+
+
     submitOrder(e) {
 
     }
@@ -28,6 +46,7 @@ class Order extends React.Component {
 
     toggleType(e) {
         this.setState({ type: e.target.name });
+        this.changeColor(e);
     }
 
     render() {
@@ -97,7 +116,7 @@ class Order extends React.Component {
                     </div>
                 </div>
                 { limitPrice }
-                <button className="btn btn-success" id="submit" type="submit" onClick={this.submitOrder}>Submit Order!</button>
+                <button className="btn btn-success" id="submit" name="submit" type="submit" onClick={this.submitOrder}>Submit Order!</button>
             </div>
         );
     }
