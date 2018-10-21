@@ -16,7 +16,7 @@ class SearchBar extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.searchTicker(this.state.ticker);
+        this.props.searchTicker(this.state.ticker, this.props.token);
         this.setState({ ticker: '' });
     }
 
@@ -31,7 +31,7 @@ class SearchBar extends React.Component {
                     <input
                         className="form-control form-control-sm mr-3 w-75"
                         type="text"
-                        placeholder="RBHD"
+                        placeholder={ this.props.ticker ? this.props.ticker : 'ROBH' }
                         aria-label="Search"
                         name="ticker"
                         value={this.state.ticker}
@@ -52,6 +52,8 @@ class SearchBar extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        ticker: state.ticker,
+        token: state.token
     };
 };
 

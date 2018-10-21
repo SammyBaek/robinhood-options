@@ -21,6 +21,7 @@ class AppContainer extends React.Component {
                         <SearchBar />
                     </div>
                 </div>
+
                 <div className="row">
                     <div className="col-md-9">
                         <StockInfo />

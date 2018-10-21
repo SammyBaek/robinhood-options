@@ -1,6 +1,6 @@
 // Action Creators
 
-import {LOGIN, SEARCHTICKER} from './types';
+import {LOGIN, SEARCHTICKER,GET_TABLE_INFO} from './types';
 
 import axios from 'axios/index';
 
@@ -20,13 +20,45 @@ export const login = (uname, pword) => async dispatch => {
     dispatch({ type: LOGIN, payload: res.data });
 };
 
-export const searchTicker = (ticker) => async dispatch=> {
-    console.log("found method");
+export const getTableInfo = (token, ticker, optionType, expirationDate) => async dispatch =>{
+    if (!expirationDate) {
+        return;
+    }
+    const option_type =  optionType.toLowerCase();
+    let params = {
+        chain_symbol: ticker,
+        type: option_type,
+        state: "active",
+        expiration_dates: expirationDate
+    };
+    const r = await axios.get("https://api.robinhood.com/options/instruments/", {params: params});
+    const results = r.data.results.map(res=>({url: res.url, strikePrice: res.strike_price}));
+    const instruments = results.map(res => res.url).reduce((comb, url) => {
+        return comb + ',' + url;
+    }, '').substring(1);
+
+    params = {
+        instruments: instruments
+    };
+    const r2 = await axios.get("https://api.robinhood.com/marketdata/options/",{ headers: {"Authorization" : `Bearer ${token}`}, params: params});
+    const results2 = r2.data.results;
+
+
+    const payload = results.map(res =>  {
+        return Object.assign({}, res, {cost: results2.find(r => r.instrument === res.url).adjusted_mark_price});
+    });
+
+    dispatch({type: GET_TABLE_INFO, payload: payload});
+};
+
+
+export const searchTicker = (ticker, token) => async dispatch=> {
     const params = {
         chain_symbol: ticker,
     };
     const r = await axios.get("https://api.robinhood.com/options/instruments/", {params: params});
     const chain_id = r.data.results[0].chain_id;
+
     const params2 = {
         ids: chain_id
     };
@@ -35,11 +67,13 @@ export const searchTicker = (ticker) => async dispatch=> {
 
     const pricer = await axios.get("https://api.robinhood.com/quotes/" + ticker + '/');
     const stockPrice = pricer.data.last_trade_price;
+
     const payload = {
         ticker: ticker,
         dates: expirationDates,
         stockPrice: stockPrice
     };
     dispatch({type: SEARCHTICKER, payload: payload});
+    // dispatch(getTableInfo(token, ticker, 'put', expirationDates[0]));
 };
 
